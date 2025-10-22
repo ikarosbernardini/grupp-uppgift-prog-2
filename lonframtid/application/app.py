@@ -8,7 +8,7 @@ def startsida():
 
 @app.post("/prognos")
 def prognos_arbete():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, World!</p>"st
 
 @app.post("/lön")
 def lön_arbete():
