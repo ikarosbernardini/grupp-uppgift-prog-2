@@ -1,1 +1,1 @@
-print("hello world!") # gej
+print("hello world!") # hej
