@@ -4,7 +4,9 @@ import requests
 import json
 from application import func
 
-@app.route("/skatteverket") 
+app = Flask(__name__)
+
+@app.route("/skatteverket", methods=["GET"])
 def skatteverk():
     '''Denna funktion körs när man går till servern med  endpoint '/api/xml'. 
        Den tar endast emot trafik med alla HTTP methods.
@@ -17,5 +19,10 @@ def skatteverk():
 
     # Skicka tillbaka resultatet till browsern med Jinja, dvs uppdatera mallen index.html med innehållet i variabeln data
     return render_template('index.html', data=data)
-# skatteverket api
-data2 = "https://historical.api.jobtechdev.se/ad/8430129" # arbetsförmedlingens api
+@app.route("/arbetsformedlingen", methods=["GET"])
+def arbetsformedlingen():
+    data_url = "https://historical.api.jobtechdev.se/ad/8430129"
+    response = requests.get(data_url)
+    data = response.json()
+    return render_template('index.html', data=data)
+
