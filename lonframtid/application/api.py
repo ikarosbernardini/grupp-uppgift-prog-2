@@ -1,0 +1,2 @@
+https://skatteverket.entryscape.net/rowstore/dataset/1cad9af9-6c1e-4518-a610-c16302dd3b72 (lönestatistik per yrke och region api) 
+https://historical.api.jobtechdev.se/ad/8430129 (historiska jobb annonser api) 
