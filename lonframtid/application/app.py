@@ -1,4 +1,18 @@
-print("hello world!") # hej från ikaros
+from flask import Flask
 
+app = Flask(__name__)
 
+@app.route("/")
+def startsida():
+    return "<p>Hello, World!</p>"
 
+@app.post("/prognos")
+def prognos_arbete():
+    return "<p>Hello, World!</p>"
+
+@app.post("/lön")
+def lön_arbete():
+    return "<p>Hello, World!</p>"
+
+if __name__ == "__main__":
+    app.run(debug=True)
