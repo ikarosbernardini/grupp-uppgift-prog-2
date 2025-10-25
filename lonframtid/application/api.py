@@ -8,16 +8,15 @@ app = Flask(__name__)
 
 @app.route("/skatteverket", methods=["GET"])
 def skatteverk():
-    '''Denna funktion körs när man går till servern med  endpoint '/api/xml'. 
-       Den tar endast emot trafik med alla HTTP methods.
-       Den gör samma sak som funktionen ovan (api_post()) men med XML istället för JSON.'''
+    content = requests.get("https://skatteverket.entryscape.net/rowstore/dataset/1cad9af9-6c1e-4518-a610-c16302dd3b72/json?gruppering=Bransch&_limit=500&_offset=0")
+    data = content.json()["results"][0]
+    
 
-    # I det här exemplet har vi inga argument att lägga in i API:ets URL, så vi använder en vanlig sträng.
-    # XPath är ett sätt att navigera i XML. Raden nedan väljer ut alla taggar med namn <item>
-    data_url = "https://skatteverket.entryscape.net/rowstore/dataset/1cad9af9-6c1e-4518-a610-c16302dd3b72"
-    data = func.xml_url_to_html_table(data_url, xpath="//item")
+    df = pd.DataFrame.from_dict(data, orient='index').reset_index()
+    df.columns = ['Bransch'] + list(df.columns[1:])
+    data = df.to_dict(orient='records')
 
-    # Skicka tillbaka resultatet till browsern med Jinja, dvs uppdatera mallen index.html med innehållet i variabeln data
+    print(data)
     return render_template('index.html', data=data)
 @app.route("/arbetsformedlingen", methods=["GET"])
 def arbetsformedlingen():
