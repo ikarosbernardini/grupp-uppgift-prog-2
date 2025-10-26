@@ -1,11 +1,11 @@
-###Grupp uppgift
+*Grupp uppgift*
 
-###Händelse App###
+**Händelse App**
 
 En webbapplikation byggd i Flask som hämtar aktuella händelser från polisens RSS-flöde, geokodar adresser och visar dem på en interaktiv karta med Leaflet. Projektet började som en löneprognos-app men omstrukturerades till att fokusera på polishändelser.
 
 
-###Funktioner
+***Funktioner***
 
 - Hämtar händelser från polisens RSS
 - Geokodar adresser med Nominatim
@@ -17,12 +17,12 @@ En webbapplikation byggd i Flask som hämtar aktuella händelser från polisens 
 
 ***Källor och API:er***
 
-kart api : https://leafletjs.com/ och https://nominatim.openstreetmap.org/ui/search.html
-polisens händelse api : https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/
-
-HTML strukturering : https://getbootstrap.com/
-Jinja strukturering : https://jinja.palletsprojects.com/en/stable/templates/
-Flask quickstart : https://flask.palletsprojects.com/en/stable/quickstart/
+-Kart api : https://leafletjs.com/ och https://nominatim.openstreetmap.org/ui/search.html
+-Polisens händelse api : https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/
+-Geolocation HTML : https://www.w3schools.com/html/html5_geolocation.asp
+-HTML strukturering : https://getbootstrap.com/
+-Jinja strukturering : https://jinja.palletsprojects.com/en/stable/templates/
+-Flask quickstart : https://flask.palletsprojects.com/en/stable/quickstart/
 
 Vi har även använt oss av Google Maps för att få exakta koordinater på latitud och longitud.
 

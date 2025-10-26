@@ -40,6 +40,16 @@
                 maxZoom: 19, 
             }).addTo(map); // lägger till kartlagret på kartan
 
+            if (navigator.geolocation) { // kollar om geolocation är tillgängligt
+                navigator.geolocation.getCurrentPosition(function(position) { // hämtar användarens position
+                    var userLat = position.coords.latitude; // användarens latitud
+                    var userLon = position.coords.longitude; // användarens longitud
+                    map.setView([userLat, userLon], 12); // centrerar kartan på användarens position
+                    L.marker([userLat, userLon]).addTo(map) // lägger till en markör på användarens position
+                      .bindPopup("Du är här!").openPopup(); // lägger till en popup på markören
+                });
+            }
+
             var events = {{ events|tojson }}; // konverterar händelserna till JSON för JavaScript
             events.forEach(function(ev) { // loopar igenom händelserna
                 if (ev.lat && ev.lon) { // om latitud och longitud finns
