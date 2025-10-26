@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Start - Lönestatistik{% endblock %}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="sidebar">
+        <h3>Sök lönestatistik</h3>
+        <form id="searchForm">
+            <div class="form-group">
+                <label><strong>Yrke</strong></label>
+                <select id="yrke">
+                    <option value="Städare">Städare</option>
+                    <option value="Lärare">Lärare</option>
+                    <option value="Läkare">Läkare</option>
+                    <option value="DevOps">DevOps</option>
+                </select>
+            </div>
+
+            <div class="form-group">   
+                <label><strong>Region</strong></label>
+                <select id="region">
+                    <option value="Stockholm">Stockholm</option>
+                    <option value="Göteborg">Göteborg</option>
+                    <option value="Malmö">Malmö</option>
+                    <option value="Luleå">Luleå</option>
+                
+                </select>
+            </div>
+
+            <button type="submit">Visa lönestatistik</button>
+        </form>
+
+        <div style="margin-top: 20px; font-size: 14px; color: #666;">
+            <p><strong>Tips:</strong> Testa olika kombinationer för att jämföra löneutveckling.</p>
+        </div>
+    </div>
+
+    <div class="chart-area">
+        <div id="chart"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "footer.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Enkel mock data 
+const mockData = {
+    'Städare': [28000, 29500, 31000, 32500, 34000],
+    'Lärare': [32000, 33500, 35000, 36500, 38000],
+    'Läkare': [35000, 37000, 39000, 41000, 43000],
+    'DevOps': [45000, 47000, 49000, 51000, 53000]
+};
+
+// Hämta data från API
+async function getData(yrke, region) {
+    try {
+        
+        // const response = await fetch(`/api/loner?yrke=${yrke}&region=${region}`);
+        // return await response.json();
+        
+        
+        return {
+            years: ['2020', '2021', '2022', '2023', '2024'],
+            salaries: mockData[yrke] || [30000, 32000, 34000, 36000, 38000],
+            yrke: yrke,
+            region: region
+        };
+    } catch (error) {
+        return {
+            years: ['2020', '2021', '2022', '2023', '2024'],
+            salaries: mockData[yrke] || [30000, 32000, 34000, 36000, 38000],
+            yrke: yrke,
+            region: region
+        };
+    }
+}
+
+// Uppdatera diagram
+function updateChart(data) {
+    const chartData = [{
+        x: data.years,
+        y: data.salaries,
+        type: 'lines+markers',
+        name: data.yrke,
+        line: {color: '#007bff', width: 3}
+    }];
+
+    const layout = {
+        title: `Löner för ${data.yrke} i ${data.region}`,
+        xaxis: {title: 'År'},
+        yaxis: {title: 'Lön (SEK)'}
+    };
+
+    Plotly.newPlot('chart', chartData, layout);
+}
+
+// Hantera formulär
+document.getElementById('searchForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const yrke = document.getElementById('yrke').value;
+    const region = document.getElementById('region').value;
+    
+    const data = await getData(yrke, region);
+    updateChart(data);
+});
+
+// Starta med första valet
+getData('Städare', 'Stockholm').then(updateChart);
+</script>
+{% endblock %}
