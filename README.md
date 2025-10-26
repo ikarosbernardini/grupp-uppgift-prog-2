@@ -24,6 +24,11 @@ En webbapplikation byggd i Flask som hämtar aktuella händelser från polisens 
 -Jinja strukturering : https://jinja.palletsprojects.com/en/stable/templates/
 -Flask quickstart : https://flask.palletsprojects.com/en/stable/quickstart/
 
+-För renskrivning och små förbättringsförslag etc har vi använt oss utav följande AI-modeller :
+    Copilot
+    ChatGPT
+    Ollamas - qwen3-coder:480b-cloud, qwen3-coder:30b
+
 Vi har även använt oss av Google Maps för att få exakta koordinater på latitud och longitud.
 
 
