@@ -6,8 +6,9 @@ app = Flask(__name__)
 
 @app.route("/map/test")
 def test_map():
+
     events = [
-        {"title": "TestHändelse 1", "description": "Nackademin", "lat": 59.3496, "lon": 18.0069},
-        {"title": "TestHändelse 2", "description": "Vega", "lat": 59.193054, "lon": 18.339186},
+        {"title": "Här är faktiskt vår skola", "description": "Nackademin", "lat": 59.34527896351938, "lon": 18.023387442913386},
+        {"title": "Hemma hos mej", "description": "Vega", "lat": 59.17901498967768, "lon": 18.1283693503939926},
     ]
-    return render_template("map.html", events=events)
+    return render_template("map.html", events=events) # renderar mallen med händelserna

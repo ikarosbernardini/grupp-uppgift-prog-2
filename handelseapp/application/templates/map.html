@@ -13,7 +13,7 @@
         <h1 class="mb-4">Aktuella Polishändelser</h1>
         <div id="map"></div>
         <h2>Tabell med händelser</h2>
-        <table class="table table-striped">
+        <table class="table table-striped"> <!-- skapar en tabell med bootstrap klasser -->
             <thead>
                 <tr>
                     <th>Titel</th>
@@ -23,31 +23,33 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ev in events %}
+                {% for ev in events %} # loopar igenom händelserna
                 <tr>
-                    <td>{{ ev.title }}</td>
-                    <td>{{ ev.description }}</td>
-                    <td>{{ ev.pubDate if ev.pubDate else "" }}</td>
-                    <td><a href="{{ ev.link }}" target="_blank">Läs mer</a></td>
+                    <td>{{ ev.title }}</td>  <!-- titel -->
+                    <td>{{ ev.description }}</td>  <!-- beskrivning -->
+                    <td>{{ ev.pubDate if ev.pubDate else "" }}</td>  <!-- datum, om det finns -->
+                    <td><a href="{{ ev.link }}" target="_blank">Läs mer</a></td> <!-- länk till händelsen -->
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- inkluderar Leaflet.js -->
         <script>
-            var map = L.map('map').setView([59.3293, 18.0686], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-            }).addTo(map);
+            var map = L.map('map').setView([59.3293, 18.0686], 10);  // centrerar kartan på Stockholm
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {  // använder OpenStreetMap som kartlager
+                maxZoom: 19, 
+            }).addTo(map); // lägger till kartlagret på kartan
 
-            var events = {{ events|tojson }};
-            events.forEach(function(ev) {
-                if (ev.lat && ev.lon) {
-                    L.marker([ev.lat, ev.lon])
-                      .addTo(map)
-                      .bindPopup("<b>" + ev.title + "</b><br>" + ev.description + "<br><a href='" + ev.link + "' target='_blank'>Läs mer</a>");
+            var events = {{ events|tojson }}; // konverterar händelserna till JSON för JavaScript
+            events.forEach(function(ev) { // loopar igenom händelserna
+                if (ev.lat && ev.lon) { // om latitud och longitud finns
+                    L.marker([ev.lat, ev.lon]) 
+                      .addTo(map) // lägger till en markör på kartan
+                      .bindPopup("<b>" + ev.title + "</b><br>" + ev.description + "<br><a href='" + ev.link + "' target='_blank'>Läs mer</a>"); // lägger till en popup med titel, beskrivning och länk
                 }
             });
-        </script>
-    </body>
+        </script> // här slutar js koden
+    </body> 
 </html>
+
+
