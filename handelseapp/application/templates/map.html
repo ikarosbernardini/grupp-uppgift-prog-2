@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ev in events %} # loopar igenom händelserna
+                {% for ev in events %} 
                 <tr>
                     <td>{{ ev.title }}</td>  <!-- titel -->
                     <td>{{ ev.description }}</td>  <!-- beskrivning -->
@@ -48,7 +48,7 @@
                       .bindPopup("<b>" + ev.title + "</b><br>" + ev.description + "<br><a href='" + ev.link + "' target='_blank'>Läs mer</a>"); // lägger till en popup med titel, beskrivning och länk
                 }
             });
-        </script> // här slutar js koden
+        </script> 
     </body> 
 </html>
 
