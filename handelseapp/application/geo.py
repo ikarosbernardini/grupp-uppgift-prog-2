@@ -17,3 +17,4 @@ def geografisk_adress(address):
     except Exception:
         return None, None # Felhantering för nätverksfel eller JSON-fel
     return None, None # om inte latitud/longitud hittas
+

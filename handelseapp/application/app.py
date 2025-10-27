@@ -14,15 +14,17 @@ def map_view():
     data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/"
     df = func.xml_url_to_dataframe(data_url, xpath="//item") # här hämtar jag datan från RSS-flödet och gör om den till en DataFrame
 
-    if "description" in df.columns: # om description finns i kolumnerna
-        df = func.geocode_dataframe(df, location_column="description") # använder description för geokodning
-    elif "title" in df.columns: # om title finns i kolumnerna
-        df = func.geocode_dataframe(df, location_column="title") # använder title som fallback
-    else:
+    df = func.add_city_coordinates(df, title_column="title") # lägger till latitud och longitud baserat på ortnamn i titelkolumnen
+    
+    if "latitude" not in df.columns or "longitude" not in df.columns:
         return "Ingen platsinformation hittades", 500 # felhantering om ingen platsinfo finns
 
     events = df.to_dict(orient="records") # här gör jag om DataFrame till en lista av ordböcker
+    
+
     return render_template("map.html", events=events)
+
+#df["Ort"] = df["title"].split(", ").str[-1] # extraherar ort från title-kolumnen
 
 @app.route("/table")
 def table_view():
@@ -30,7 +32,7 @@ def table_view():
     data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/" # här definierar jag URL:en till RSS-flödet
     df = func.xml_url_to_dataframe(data_url, xpath="//item") # här hämtar jag datan från RSS-flödet och gör om den till en DataFrame
     table_html = df.to_html(classes="table table-striped", justify="left") # här gör jag om tabellen till HTML
-    return f"<h1>Aktuella händelser i Stockholm</h1>{table_html}"  # returnerar HTML-sidan med tabellen
+    return f"<h1>Aktuella händelser i Stockholm</h1>{table_html}" 
 
 @app.route("/map/test")
 def test_map():
