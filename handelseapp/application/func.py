@@ -11,20 +11,19 @@ _cache = {} # cache för att slippa upprepade geokodningsförfrågningar
 
 with open("se.json", "r", encoding="utf-8") as f:
     cities = json.load(f) # laddar svenska städer från en JSON-fil
-
     cities_df = pd.DataFrame(cities) # gör om till DataFrame
     cities_df.rename(columns={"lat": "latitude", "lng": "longitude"}, inplace=True) # byter namn på kolumnerna
 
-def add_city_coordinates(df, title_column="title"):
+def add_city_coordinates(df, title_column="title", limit=10):
     """
     Lägger till latitud och longitud för svenska städer i en DataFrame baserat på en titelkolumn.
     """
     df["Ort"] = df[title_column].str.split(", ").str[-1] # extraherar ort från titelkolumnen
     df = df.merge(cities_df, left_on="Ort", right_on="city", how="left") # slår ihop med cities_df baserat på ortnamn
-    print(df.head(10))
-    print(df["Ort"])
-   
-    return df # returnerar den uppdaterade DataFrame:n
+    
+    print(df.head(limit).to_dict())
+
+    return df.head(limit) # returnerar den uppdaterade DataFrame:n
 
 def json_url_to_html_table(url, columns=None): 
     """

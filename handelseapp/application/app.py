@@ -13,16 +13,17 @@ def map_view():
     """ Visar en karta med händelser."""
     data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/"
     df = func.xml_url_to_dataframe(data_url, xpath="//item") # här hämtar jag datan från RSS-flödet och gör om den till en DataFrame
-
-    df = func.add_city_coordinates(df, title_column="title") # lägger till latitud och longitud baserat på ortnamn i titelkolumnen
+    df = func.add_city_coordinates(df, title_column="title", limit=10) # lägger till latitud och longitud baserat på ortnamn i titelkolumnen
     
     if "latitude" not in df.columns or "longitude" not in df.columns:
         return "Ingen platsinformation hittades", 500 # felhantering om ingen platsinfo finns
 
     events = df.to_dict(orient="records") # här gör jag om DataFrame till en lista av ordböcker
     
+   # for row in df.iterrows:
+        #print(row["Ort"], row["lat"], row["lng"])
 
-    return render_template("map.html", events=events)
+    return render_template("map.html", events=events) #pins =df.head(10).to_dict())
 
 #df["Ort"] = df["title"].split(", ").str[-1] # extraherar ort från title-kolumnen
 
@@ -39,10 +40,12 @@ def test_map():
     """ Testvy för kartan med hårdkodade händelser
         där jag använder mig utav "title" och "description" som platsinformation,
         och kan enkelt välja ut vilka latitud och longitud värden jag vill använda mig av för att visa på kartan."""
-    events = [
+    events = [ # skapa en for loop som går igenom "df" och skriver ut som nedan : 
         {"title": "Här är faktiskt vår skola", "description": "Nackademin", "lat": 59.34527896351938, "lon": 18.023387442913386},
         {"title": "Hemma hos mej", "description": "Vega", "lat": 59.17901498967768, "lon": 18.1283693503939926},
     ]
+
+
     return render_template("map.html", events=events) # renderar mallen med händelserna
 
 if __name__ == "__main__": # kör appen om detta är huvudmodulen
