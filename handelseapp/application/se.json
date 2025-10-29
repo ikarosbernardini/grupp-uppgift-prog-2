@@ -1175,5 +1175,60 @@
     "capital": "minor", 
     "population": "", 
     "population_proper": ""
+  },
+  {
+    "city": "Haninge", 
+    "lat": "59.1758",  
+    "lng": "18.1416", 
+    "country": "Sweden", 
+    "iso2": "SE", 
+    "admin_name": "Stockholm", 
+    "capital": "minor", 
+    "population": "", 
+    "population_proper": ""
+  },
+  {
+    "city": "Haninge", 
+    "lat": "59.1758",  
+    "lng": "18.1416", 
+    "country": "Sweden", 
+    "iso2": "SE", 
+    "admin_name": "Stockholm", 
+    "capital": "minor", 
+    "population": "", 
+    "population_proper": ""
+  },
+  {
+    "city": "Sigtuna", 
+    "lat": "59.618",    
+    "lng": "17.7233", 
+    "country": "Sweden", 
+    "iso2": "SE", 
+    "admin_name": "Stockholm", 
+    "capital": "minor", 
+    "population": "", 
+    "population_proper": ""
+  },
+  {
+    "city": "Sollentuna", 
+    "lat": "59.4297",    
+    "lng": "17.9519", 
+    "country": "Sweden", 
+    "iso2": "SE", 
+    "admin_name": "Stockholm", 
+    "capital": "minor", 
+    "population": "", 
+    "population_proper": ""
+  },
+  {
+    "city": "Järfälla", 
+    "lat": "59.4534",    
+    "lng": "17.8322", 
+    "country": "Sweden", 
+    "iso2": "SE", 
+    "admin_name": "Stockholm", 
+    "capital": "minor", 
+    "population": "", 
+    "population_proper": ""
   }
-]
+] 

@@ -12,6 +12,7 @@
     </head>
     <body class="container py-4">
         <h1 class="mb-4">Aktuella Polishändelser</h1>
+
         <div id="map"></div>
         <h2>Tabell med händelser</h2>
         <table class="table table-striped"> <!-- skapar en tabell med bootstrap klasser -->
@@ -41,14 +42,6 @@
                 maxZoom: 19, 
             }).addTo(map); // lägger till kartlagret på kartan
             
-
-            {% for e in events %}
-                {% if e.lat and e.lng %}
-                    L.marker([{{ e.lat }}, {{ e.lng }}])
-                        .addTo(map)
-                        .bindPopup("<b>{{ e.Ort }}</b><br><a href='{{ e.link }}' target='_blank'>Läs mer</a>");
-                    {% endif %}
-            {% endfor %}
             
             if (navigator.geolocation) { // kollar om geolocation är tillgängligt
                 navigator.geolocation.getCurrentPosition(function(position) { // hämtar användarens position
@@ -68,8 +61,13 @@
                         .bindPopup("<b>" + ev.title + "</b><br>" + ev.description + "<br><a href='" + ev.link + "' target='_blank'>Läs mer</a>");
                 }
             });
-        </script> 
-        {{pins}}
+            var results = {{ results|tojson }};
+            results.forEach(function(pin) {
+                L.marker([pin.lat, pin.lng])
+                    .addTo(map)
+                    .bindPopup("<b>" + pin.city + "</b><br>");
+    });
+            </script> 
 
     </body> 
 </html>

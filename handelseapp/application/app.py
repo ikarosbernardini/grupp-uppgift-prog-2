@@ -13,19 +13,16 @@ def map_view():
     """ Visar en karta med händelser."""
     data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/"
     df = func.xml_url_to_dataframe(data_url, xpath="//item") # här hämtar jag datan från RSS-flödet och gör om den till en DataFrame
-    df = func.add_city_coordinates(df, title_column="title", limit=10) # lägger till latitud och longitud baserat på ortnamn i titelkolumnen
+    results = func.add_city_coordinates(df, title_column="title", limit=10) # lägger till latitud och longitud baserat på ortnamn i titelkolumnen
     
-    if "latitude" not in df.columns or "longitude" not in df.columns:
-        return "Ingen platsinformation hittades", 500 # felhantering om ingen platsinfo finns
-
+    #if "latitude" not in df.columns or "longitude" not in df.columns:
+       # return "Ingen platsinformation hittades", 500 # felhantering om ingen platsinfo finns
+    
     events = df.to_dict(orient="records") # här gör jag om DataFrame till en lista av ordböcker
     
-   # for row in df.iterrows:
-        #print(row["Ort"], row["lat"], row["lng"])
+  
+    return render_template("map.html", events=events,results=results) #pins =df.head(10).to_dict())
 
-    return render_template("map.html", events=events) #pins =df.head(10).to_dict())
-
-#df["Ort"] = df["title"].split(", ").str[-1] # extraherar ort från title-kolumnen
 
 @app.route("/table")
 def table_view():

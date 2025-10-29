@@ -6,6 +6,7 @@ import requests
 import time
 
 
+
 _cache = {} # cache för att slippa upprepade geokodningsförfrågningar
 
 
@@ -21,9 +22,30 @@ def add_city_coordinates(df, title_column="title", limit=10):
     df["Ort"] = df[title_column].str.split(", ").str[-1] # extraherar ort från titelkolumnen
     df = df.merge(cities_df, left_on="Ort", right_on="city", how="left") # slår ihop med cities_df baserat på ortnamn
     
-    print(df.head(limit).to_dict())
+    
+    
+    areas = []
+    for area in range(0, 10):
+        areas.append(df.head(limit).to_dict()["title"][area].split(", ")[-1])
+    
+    city_lookup = {c["city"]: {"lat": c["lat"], "lng": c["lng"]} for c in cities}
 
-    return df.head(limit) # returnerar den uppdaterade DataFrame:n
+    results = []
+    for area in areas:
+        if area in city_lookup:
+            coords = city_lookup[area]
+            results.append({
+                "city": area,
+                "lat": coords["lat"],
+                "lng": coords["lng"]
+            })
+    print(results)
+
+    return results # returnerar den uppdaterade DataFrame:n
+
+
+
+    
 
 def json_url_to_html_table(url, columns=None): 
     """
@@ -37,6 +59,8 @@ def json_url_to_html_table(url, columns=None):
     except Exception as e:
         print("Fel vid hämtning av JSON formatet:", e) # Felhantering
         return "<p>Kunde inte hämta datan korrekt.</p>"
+    
+    
 
 def xml_url_to_dataframe(data_url, xpath="//item"):
     """
