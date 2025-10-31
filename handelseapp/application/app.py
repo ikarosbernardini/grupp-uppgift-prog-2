@@ -64,6 +64,15 @@ def search_view():
     events = filtered_df.to_dict(orient="records")
     return render_template("search_results.html", events=events, query=query)
 
+@app.route("/back") # enkel omdirigering tillbaka till kartvyn
+def back():
+    return redirect(url_for("map_view"))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """ Hanterar 404-fel med en anpassad sida."""
+    return render_template("404.html"), 404
+
 if __name__ == "__main__": # kör appen om detta är huvudmodulen
     app.run(debug=True)
 

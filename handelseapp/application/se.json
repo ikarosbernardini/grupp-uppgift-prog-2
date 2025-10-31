@@ -1747,5 +1747,16 @@
     "capital": "", 
     "population": "", 
     "population_proper": ""
-  }
+  },
+  {
+  "city": "Vallentuna",
+  "lat": "59.5344",
+  "lng": "18.0776",
+  "country": "Sweden",
+  "iso2": "SE",
+  "admin_name": "Stockholm",
+  "capital": "minor",
+  "population": "33918",
+  "population_proper": "33918"
+}
 ] 

@@ -249,13 +249,17 @@
         var results = {{ results|tojson }};
         results.forEach(function(pin) {
             if (pin.lat && pin.lng) {
-                // Create a default link if none exists
-                var link = pin.link || "#";
-                var popupContent = "<b>" + (pin.city || "Plats") + "</b><br>" +
-                                  "<span class='me-2'>Händelse</span>" +
-                                  "<a href='" + link + "' target='_blank' class='popup-link'>Läs mer</a>";
-                
-                L.marker([pin.lat, pin.lng])
+                var popupContent = "<b>" + pin.city + "</b><br>";
+
+                // Lägg till alla händelser för orten
+                pin.events.forEach(function(ev) {
+                var parts = ev.title.split(", ");
+                var beforeOrt = parts.slice(0, -1).join(", "); // allt utom orten
+                popupContent += beforeOrt + 
+                    " <a href='" + ev.link + "' target='_blank' class='popup-link'>Läs mer</a><br>";
+                });
+
+                 L.marker([pin.lat, pin.lng])
                     .addTo(map)
                     .bindPopup(popupContent);
             }

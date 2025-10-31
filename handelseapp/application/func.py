@@ -30,20 +30,29 @@ def add_city_coordinates(df, title_column="title", limit=10):
         # lägger till ortnamnet i listan genom att splitta strängen vid ", " och ta den sista delen
     city_lookup = {c["city"]: {"lat": c["lat"], "lng": c["lng"]} for c in cities} # skapar en uppslagningstabell för städer och deras koordinater
 
-    results = [] # tom lista för resultat
-    for area in areas: # loopa genom varje område i listan
-        if area in city_lookup: # kolla om området finns i uppslagningstabellen
+    results = {}  # använder dict istället för lista då vi vill gruppera händelser per ort
+
+    for i, area in enumerate(areas):  # loopa genom områdena och använder enumerate för att få indexen av områdena
+        if area in city_lookup: # kolla om orten finns i uppslagningstabellen
             coords = city_lookup[area] # hämta koordinaterna
-            results.append({ 
-                "city": area,
-                "lat": coords["lat"],
-                "lng": coords["lng"]
-            }) # lägg till koordinaterna i resultatlistan
-    print(results) # skriv ut resultatet för felsökning
+             # om orten inte finns i results, skapa en ny post
+            if area not in results: 
+                results[area] = {
+                    "city": area,
+                    "lat": coords["lat"],
+                    "lng": coords["lng"],
+                    "events": []   # lista med händelser för denna ort
+                }
+            results[area]["events"].append({
+                "title": df.head(limit).iloc[i]["title"],
+                "link": df.head(limit).iloc[i]["link"]
+            }) # lägger till händelsen i listan för denna ort
 
-    return results # returnerar den uppdaterade DataFrame:n
+# gör om dict till lista
+    results = list(results.values()) # använder values() för att få en lista av värdena i dict
 
-
+    #print(results)  # felsökning
+    return results   # returnerar listan med orter och deras händelser
 
     
 
