@@ -3,6 +3,7 @@ import ssl
 import json
 import pandas as pd
 import requests
+import pathlib # hämtar filvägshantering
 import time
 
                         
@@ -10,12 +11,17 @@ import time
 _cache = {} # cache för att slippa upprepade geokodningsförfrågningar
 
 
-with open("se.json", "r", encoding="utf-8") as f:
-    cities = json.load(f) # laddar svenska städer från en JSON-fil
-    cities_df = pd.DataFrame(cities) # gör om till DataFrame
-    cities_df.rename(columns={"lat": "latitude", "lng": "longitude"}, inplace=True) # byter namn på kolumnerna
 
-def add_city_coordinates(df, title_column="title", limit=10):
+
+BASE_DIR = pathlib.Path(__file__).resolve().parent # definierar basmappen för filvägar
+DATA_FILE = BASE_DIR / "se.json" # sökväg till JSON-filen med svenska städer för pytest ska fungera och appen för samtliga användare
+
+with open(DATA_FILE, "r", encoding="utf-8") as f: # öppnar JSON-filen
+    cities = json.load(f)  # laddar svenska städer från en JSON-fil
+    cities_df = pd.DataFrame(cities)  # gör om till DataFrame
+    cities_df.rename(columns={"lat": "latitude", "lng": "longitude"}, inplace=True)   # byter namn på kolumner för att undvika krockar med geokodningsfunktionen
+
+def add_city_coordinates(df, title_column="title", limit=10): 
     """
     Lägger till latitud och longitud för svenska städer i en DataFrame baserat på en titelkolumn.
     """
@@ -44,8 +50,8 @@ def add_city_coordinates(df, title_column="title", limit=10):
                     "events": []   # lista med händelser för denna ort
                 }
             results[area]["events"].append({
-                "title": df.head(limit).iloc[i]["title"],
-                "link": df.head(limit).iloc[i]["link"]
+                "title": df.head(limit).iloc[i]["title"], # .iloc[i] för att få rätt rad
+                "link": df.head(limit).iloc[i]["link"] # använder df.head(limit).iloc[i] för att få rätt rad
             }) # lägger till händelsen i listan för denna ort
 
 # gör om dict till lista

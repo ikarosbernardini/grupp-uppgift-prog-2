@@ -1758,5 +1758,38 @@
   "capital": "minor",
   "population": "33918",
   "population_proper": "33918"
+},
+{
+  "city": "Åkersberga",
+  "lat": "59.4794",
+  "lng": "18.2997",
+  "country": "Sweden",
+  "iso2": "SE",
+  "admin_name": "Österåker",
+  "capital": "",
+  "population": "",
+  "population_proper": ""
+},
+{
+  "city": "Österåker",
+  "lat": "59.4833",
+  "lng": "18.3000",
+  "country": "Sweden",
+  "iso2": "SE",
+  "admin_name": "Stockholm",
+  "capital": "",
+  "population": "",
+  "population_proper": ""
+},
+{
+  "city": "Danderyd",
+  "lat": "59.40398",
+  "lng": "18.02376",
+  "country": "Sweden",
+  "iso2": "SE",
+  "admin_name": "Stockholm",
+  "capital": "",
+  "population": "",
+  "population_proper": ""
 }
 ] 
