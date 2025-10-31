@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from application import func
 
 app = Flask(__name__)
@@ -44,6 +44,25 @@ def test_map():
 
 
     return render_template("map.html", events=events) # renderar mallen med händelserna
+
+@app.route("/search")
+def search_view():
+    """ Sökvyn för att filtrera händelser efter ort """
+    query = request.args.get('q', '').strip().lower()
+    data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/"
+    df = func.xml_url_to_dataframe(data_url, xpath="//item")
+    
+    # Lägg till ort-kolumn precis som i map_view
+    df["Ort"] = df["title"].str.split(", ").str[-1]
+    
+    # Filtrera baserat på söktermen i ort-kolumnen
+    if query:
+        filtered_df = df[df["Ort"].str.lower().str.contains(query, na=False)]
+    else:
+        filtered_df = df
+    
+    events = filtered_df.to_dict(orient="records")
+    return render_template("search_results.html", events=events, query=query)
 
 if __name__ == "__main__": # kör appen om detta är huvudmodulen
     app.run(debug=True)

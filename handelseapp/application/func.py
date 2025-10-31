@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import time
 
-
+                        
 
 _cache = {} # cache för att slippa upprepade geokodningsförfrågningar
 
@@ -21,25 +21,25 @@ def add_city_coordinates(df, title_column="title", limit=10):
     """
     df["Ort"] = df[title_column].str.split(", ").str[-1] # extraherar ort från titelkolumnen
     df = df.merge(cities_df, left_on="Ort", right_on="city", how="left") # slår ihop med cities_df baserat på ortnamn
-    
-    
-    
-    areas = []
-    for area in range(0, 10):
-        areas.append(df.head(limit).to_dict()["title"][area].split(", ")[-1])
-    
-    city_lookup = {c["city"]: {"lat": c["lat"], "lng": c["lng"]} for c in cities}
 
-    results = []
-    for area in areas:
-        if area in city_lookup:
-            coords = city_lookup[area]
-            results.append({
+    
+    
+    areas = [] # skapa en tom lista för områden
+    for area in range(0, 10): # loopa genom de första 10 raderna i listan
+        areas.append(df.head(limit).to_dict()["title"][area].split(", ")[-1]) 
+        # lägger till ortnamnet i listan genom att splitta strängen vid ", " och ta den sista delen
+    city_lookup = {c["city"]: {"lat": c["lat"], "lng": c["lng"]} for c in cities} # skapar en uppslagningstabell för städer och deras koordinater
+
+    results = [] # tom lista för resultat
+    for area in areas: # loopa genom varje område i listan
+        if area in city_lookup: # kolla om området finns i uppslagningstabellen
+            coords = city_lookup[area] # hämta koordinaterna
+            results.append({ 
                 "city": area,
                 "lat": coords["lat"],
                 "lng": coords["lng"]
-            })
-    print(results)
+            }) # lägg till koordinaterna i resultatlistan
+    print(results) # skriv ut resultatet för felsökning
 
     return results # returnerar den uppdaterade DataFrame:n
 
