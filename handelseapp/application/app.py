@@ -23,9 +23,9 @@ def map_view():
 @app.route("/search")
 def search_view():
     """ Sökvyn för att filtrera händelser efter ort """
-    query = request.args.get('q', '').strip().lower()
-    data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/"
-    df = func.xml_url_to_dataframe(data_url, xpath="//item")
+    query = request.args.get('q', '').strip().lower() # använder mig utav .strip() för att ta bort eventuella mellanslag före och efter sökordet och .lower() för att göra sökningen case-insensitive
+    data_url = "https://polisen.se/aktuellt/rss/stockholms-lan/handelser-rss---stockholms-lan/" # RSS-flödet
+    df = func.xml_url_to_dataframe(data_url, xpath="//item") # hämtar datan och gör om till DataFrame från RSS-flödet
     
     # Lägg till ort-kolumn precis som i map_view
     df["Ort"] = df["title"].str.split(", ").str[-1]
@@ -54,6 +54,5 @@ def page_not_found(e):
     """ Hanterar 404-fel med en anpassad sida."""
     return render_template("404.html"), 404
 
-if __name__ == "__main__": # kör appen om detta är huvudmodulen
-    app.run(debug=True)
-
+if __name__ == "__main__":
+    app.run()
